@@ -19,12 +19,23 @@ from FeatureTransformer import FeatureTransformer
 
 from sklearn.pipeline import Pipeline
 from Custom import *
+import argparse
 
 if __name__ == "__main__":
-    NO_SAMPLES=100
+    parser = argparse.ArgumentParser(description='Parameter Tuning for CRF model for target answer identification')
+    parser.add_argument('--samples', dest='samples', metavar='s', type=int, nargs='+',default=None, 
+                        help='number om samples')
+    parser.add_argument('--data-folder',  dest='data', metavar='d', type=str, default="01_data/preprocessedData/", 
+                        help='number om samples')
 
-    TRAIN_FILENAME = "01_data/preprocessedData/random_train_sentences.csv"
-    TEST_FILENAME = "01_data/preprocessedData/random_dev_sentences.csv"
+    args = parser.parse_args()
+
+    NO_SAMPLES=args.samples
+    print(args.samples)
+
+    TRAIN_FILENAME = args.data + "train.csv"
+    DEV_FILENAME = args.data + "dev.csv"
+    print(args.data)
 
     df_askable_paragraph_train = pd.read_csv(TRAIN_FILENAME)
     df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
