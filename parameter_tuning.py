@@ -86,5 +86,5 @@ if __name__ == "__main__":
 
     gs.fit(train_feature, y_train)
 
-    joblib.dump(gs, 'gs.pkl')
-    joblib.dump(gs.best_estimator_, 'best_estimator.pkl')
+    joblib.dump(gs, args.output + "crf_target_answer/" + args.dataset + '/gs.pkl')
+    joblib.dump(gs.best_estimator_, args.output + "crf_target_answer/" + args.dataset + '/best_estimator.pkl')
