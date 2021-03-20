@@ -23,7 +23,7 @@ import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parameter Tuning for CRF model for target answer identification')
-    parser.add_argument('--samples', dest='samples', metavar='s', type=int, nargs='+',default=None, 
+    parser.add_argument('--samples', dest='samples', metavar='s', type=int,default=None, 
                         help='number om samples')
     parser.add_argument('--data-folder',  dest='data', metavar='d', type=str, default="01_data/preprocessedData/", 
                         help='number om samples')
