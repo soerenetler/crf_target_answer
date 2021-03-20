@@ -35,13 +35,13 @@ if __name__ == "__main__":
     NO_SAMPLES=args.samples
     print(args.samples)
 
-    TRAIN_FILENAME = args.data +args.dataset+ "/paragraph/train.csv"
-    DEV_FILENAME = args.data +args.dataset+ "/paragraph/dev.csv"
+    TRAIN_FILENAME = args.data +args.dataset+ "/sentences/train.csv"
+    DEV_FILENAME = args.data +args.dataset+ "/sentences/dev.csv"
     print(args.data)
 
     df_askable_paragraph_train = pd.read_csv(TRAIN_FILENAME)
     df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
-    df_askable_paragraph_train["paragraph_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["paragraph_tokens"]]
+    df_askable_paragraph_train["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["sentence_tokens"]]
 
     nlp = spacy.load('en_core_web_sm')
     nlp.tokenizer = custom_tokenizer(df_askable_paragraph_train, nlp)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     else:
         df_train = df_askable_paragraph_train
     
-    train_feature = feature_transformer.fit_transform(df_train["paragraph_text"])
+    train_feature = feature_transformer.fit_transform(df_train["sentence_text"])
     
     y_train = list(df_train["askable_tokens"])
 
