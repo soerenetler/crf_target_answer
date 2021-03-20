@@ -27,14 +27,16 @@ if __name__ == "__main__":
                         help='number om samples')
     parser.add_argument('--data-folder',  dest='data', metavar='d', type=str, default="01_data/preprocessedData/", 
                         help='number om samples')
+    parser.add_argument('--dataset',  dest='dataet', metavar='a', type=str, default="squad", 
+                        help='number om samples')
 
     args = parser.parse_args()
 
     NO_SAMPLES=args.samples
     print(args.samples)
 
-    TRAIN_FILENAME = args.data + "train.csv"
-    DEV_FILENAME = args.data + "dev.csv"
+    TRAIN_FILENAME = args.data +args.dataset+ "/paragraph/train.csv"
+    DEV_FILENAME = args.data +args.dataset+ "/paragraph/dev.csv"
     print(args.data)
 
     df_askable_paragraph_train = pd.read_csv(TRAIN_FILENAME)
