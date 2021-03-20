@@ -5,7 +5,7 @@ import spacy
 from sklearn_crfsuite import CRF
 
 def custom_tokenizer(df, nlp):
-    return lambda text : Doc(nlp.vocab, list(df[df["sentence_text"]==text]["sentence_tokens"])[0])
+    return lambda text : Doc(nlp.vocab, list(df[df["paragraph_text"]==text]["paragraph_tokens"])[0])
         
 def custom_roc_auc_score(y_trues, prob_pred):
     y_true_merged = [y_true == 'I-Answer' for y_true in list(itertools.chain(*y_trues))]
