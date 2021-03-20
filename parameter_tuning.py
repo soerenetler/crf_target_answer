@@ -43,7 +43,7 @@ if __name__ == "__main__":
     df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
     df_askable_paragraph_train["paragraph_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["paragraph_tokens"]]
 
-    nlp = spacy.load('en_core_web_md')
+    nlp = spacy.load('en_core_web_sm')
     nlp.tokenizer = custom_tokenizer(df_askable_paragraph_train, nlp)
 
     feature_transformer = FeatureTransformer(nlp)
