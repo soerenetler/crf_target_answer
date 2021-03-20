@@ -29,6 +29,8 @@ if __name__ == "__main__":
                         help='number om samples')
     parser.add_argument('--dataset',  dest='dataset', metavar='a', type=str, default="squad", 
                         help='number om samples')
+    parser.add_argument('--output',  dest='output', metavar='o', type=str, default="./", 
+                        help='number om samples')
 
     args = parser.parse_args()
 
