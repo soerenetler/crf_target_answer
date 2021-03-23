@@ -7,9 +7,6 @@ from ngrams import NGrams
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
 
-import spacy
-spacy.require_gpu()
-
 #wget https://storage.googleapis.com/allennlp-public-models/bert-base-srl-2020.03.24.tar.gz
 
 class FeatureTransformer(TransformerMixin):
@@ -25,7 +22,7 @@ class FeatureTransformer(TransformerMixin):
                  begin=-1,
                  end=1):
         self.nlp = nlp
-        self.predictor = Predictor.from_path("https://storage.googleapis.com/allennlp-public-models/structured-prediction-srl-bert.2020.12.15.tar.gz")
+        self.predictor = Predictor.from_path("https://storage.googleapis.com/allennlp-public-models/structured-prediction-srl-bert.2020.12.15.tar.gz", cuda_device=0)
         self.pos_features = pos_features
         self.ent_type_features = ent_type_features
         self.lemma_features = lemma_features
