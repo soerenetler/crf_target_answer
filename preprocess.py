@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     nlp = spacy.load('en_core_web_trf')
     spacy.require_gpu()
-    nlp.tokenizer = nlp.tokenizer.tokens_from_list
+    nlp.tokenizer = custom_tokenizer(nlp)
 
     feature_transformer = FeatureTransformer(nlp)
 
