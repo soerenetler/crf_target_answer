@@ -4,6 +4,7 @@ from spacy.tokens import Doc
 import spacy
 from sklearn_crfsuite import CRF
 
+spacy.require_gpu()
 def custom_tokenizer(nlp):
     return lambda text : Doc(nlp.vocab, words=text)
         
