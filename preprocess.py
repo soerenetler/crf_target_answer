@@ -15,7 +15,6 @@ import sklearn_crfsuite
 from FeatureTransformer import FeatureTransformer
 
 from sklearn.pipeline import Pipeline
-from Custom import *
 import argparse
 
 if __name__ == "__main__":
@@ -49,6 +48,10 @@ if __name__ == "__main__":
 
     nlp = spacy.load('en_core_web_trf')
     spacy.require_gpu()
+    
+    def custom_tokenizer(nlp):
+        return lambda text : Doc(nlp.vocab, words=text)
+
     nlp.tokenizer = custom_tokenizer(nlp)
 
     feature_transformer = FeatureTransformer(nlp)

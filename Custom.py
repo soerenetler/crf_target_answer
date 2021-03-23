@@ -1,10 +1,8 @@
 import itertools
 from sklearn.metrics import make_scorer, log_loss, roc_auc_score
 from spacy.tokens import Doc
-import spacy
 from sklearn_crfsuite import CRF
 
-spacy.require_gpu()
 def custom_tokenizer(nlp):
     return lambda text : Doc(nlp.vocab, words=text)
         
