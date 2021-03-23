@@ -7,6 +7,9 @@ from ngrams import NGrams
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
 
+import spacy
+spacy.require_gpu()
+
 #wget https://storage.googleapis.com/allennlp-public-models/bert-base-srl-2020.03.24.tar.gz
 
 class FeatureTransformer(TransformerMixin):
