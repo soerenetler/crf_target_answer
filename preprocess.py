@@ -48,7 +48,7 @@ if __name__ == "__main__":
     df_askable_paragraph_test["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["sentence_tokens"]]
 
     nlp = spacy.load('en_core_web_sm')
-    nlp.tokenizer = custom_tokenizer(df_askable_paragraph_train, nlp)
+    nlp.tokenizer = nlp.tokenizer.tokens_from_list
 
     feature_transformer = FeatureTransformer(nlp)
 
@@ -61,10 +61,10 @@ if __name__ == "__main__":
         df_test = df_askable_paragraph_test
 
 
-    train_feature = feature_transformer.fit_transform(df_train["sentence_text"])
+    train_feature = feature_transformer.fit_transform(df_train["sentence_tokens"])
     y_train = list(df_train["askable_tokens"])
 
-    test_feature = feature_transformer.transform(df_test["sentence_text"])
+    test_feature = feature_transformer.transform(df_test["sentence_tokens"])
     y_test = list(df_test["askable_tokens"])
 
 
