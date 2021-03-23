@@ -43,7 +43,7 @@ if __name__ == "__main__":
     df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
     df_askable_paragraph_train["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["sentence_tokens"]]
 
-    df_askable_paragrapht_test = pd.read_csv(TEST_FILENAME)
+    df_askable_paragraph_test = pd.read_csv(TEST_FILENAME)
     df_askable_paragraph_test["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["askable_tokens"]]
     df_askable_paragraph_test["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["sentence_tokens"]]
 
