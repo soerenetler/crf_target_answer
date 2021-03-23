@@ -69,8 +69,8 @@ if __name__ == "__main__":
 
 
     import json
-    with open(args.data +args.dataset+'crf/'+str(NO_SAMPLES)+'/train_data_crf.txt', 'w') as outfile:
+    with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt', 'w') as outfile:
         json.dump({"x": train_feature, "y":y_train} , outfile)
 
-    with open(args.data +args.dataset+'crf/'+str(NO_SAMPLES)+'/test_data_crf.txt', 'w') as outfile:
+    with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', 'w') as outfile:
         json.dump({"x": test_feature, "y":y_test} , outfile)
