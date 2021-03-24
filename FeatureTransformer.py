@@ -8,8 +8,6 @@ from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
 import allennlp
 
-import spacy
-
 #wget https://storage.googleapis.com/allennlp-public-models/bert-base-srl-2020.03.24.tar.gz
 
 class FeatureTransformer(TransformerMixin):
@@ -161,7 +159,6 @@ class FeatureTransformer(TransformerMixin):
 
         #print(allennlp.nn.util.get_device_of(token))
         #print(allennlp.nn.util.get_device_of(self.predictor))
-        spacy.require_cpu()
         srl_pred = self.predictor.predict_tokenized(tokens)
         if not srl_pred["verbs"]:
             srl_tags = ["O"]*len(sent)
