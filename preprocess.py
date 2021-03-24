@@ -46,9 +46,9 @@ if __name__ == "__main__":
     df_askable_paragraph_test["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["askable_tokens"]]
     df_askable_paragraph_test["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["sentence_tokens"]]
 
+    activated = spacy.prefer_gpu()
     nlp = spacy.load('en_core_web_trf')
-    spacy.require_gpu()
-    
+
     def custom_tokenizer(nlp):
         return lambda text : Doc(nlp.vocab, words=text)
 
