@@ -158,7 +158,7 @@ class FeatureTransformer(TransformerMixin):
         #allennlp.nn.util.move_to_device(token, 0)
 
         #print(allennlp.nn.util.get_device_of(token))
-        print(allennlp.nn.util.get_device_of(self.predictor))
+        #print(allennlp.nn.util.get_device_of(self.predictor))
 
         srl_pred = self.predictor.predict_tokenized(token)
         if not srl_pred["verbs"]:
