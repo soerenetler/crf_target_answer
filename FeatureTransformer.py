@@ -6,6 +6,7 @@ from ngrams import NGrams
 
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
+import allennlp
 
 #wget https://storage.googleapis.com/allennlp-public-models/bert-base-srl-2020.03.24.tar.gz
 
@@ -153,12 +154,13 @@ class FeatureTransformer(TransformerMixin):
         return features
 
     def text2features(self, sent):
-        print([token.text for token in sent])
-        srl_pred = self.predictor.predict_tokenized([token.text for token in sent])
+        token = [token.text for token in sent]
+        allennlp.nn.util.move_to_device(token, 0)
+        srl_pred = self.predictor.predict_tokenized(token)
         if not srl_pred["verbs"]:
             srl_tags = ["O"]*len(sent)
             srl_verb = "NONE"
         else:
-            srl_tags = self.predictor.predict_tokenized([token.text for token in sent])["verbs"][0]["tags"]
+            srl_tags = srl_pred["verbs"][0]["tags"]
             srl_verb = srl_pred["verbs"][0]["verb"]
         return [self.word2features(sent, srl_tags, srl_verb, i) for i in range(len(sent))]
