@@ -155,9 +155,9 @@ class FeatureTransformer(TransformerMixin):
 
     def text2features(self, sent):
         token = [token.text for token in sent]
-        allennlp.nn.util.move_to_device(token, 0)
+        #allennlp.nn.util.move_to_device(token, 0)
 
-        print(allennlp.nn.util.get_device_of(token))
+        #print(allennlp.nn.util.get_device_of(token))
         print(allennlp.nn.util.get_device_of(self.predictor))
 
         srl_pred = self.predictor.predict_tokenized(token)
