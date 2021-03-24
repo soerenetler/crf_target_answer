@@ -8,6 +8,8 @@ from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
 import allennlp
 
+import spacy
+
 #wget https://storage.googleapis.com/allennlp-public-models/bert-base-srl-2020.03.24.tar.gz
 
 class FeatureTransformer(TransformerMixin):
