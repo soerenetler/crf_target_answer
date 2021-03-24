@@ -154,7 +154,7 @@ class FeatureTransformer(TransformerMixin):
         return features
 
     def text2features(self, sent):
-        token = [token.text for token in sent]
+        token = [token.text for token in sent][:]
         #allennlp.nn.util.move_to_device(token, 0)
 
         #print(allennlp.nn.util.get_device_of(token))
