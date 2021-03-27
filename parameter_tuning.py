@@ -37,18 +37,19 @@ if __name__ == "__main__":
     NO_SAMPLES=args.samples
     print(args.samples)
 
-    TRAIN_FILENAME = args.data +args.dataset+ "/sentences/train.csv"
-    DEV_FILENAME = args.data +args.dataset+ "/sentences/dev.csv"
-    print(args.data)
+    TRAIN_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt'
+    DEV_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt
 
-    df_askable_paragraph_train = pd.read_csv(TRAIN_FILENAME)
-    df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
-    df_askable_paragraph_train["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["sentence_tokens"]]
+    import json
+    with open(TRAIN_FILENAME, 'w') as file:
+        train_data = json.load(file)
 
-    nlp = spacy.load('en_core_web_sm')
-    nlp.tokenizer = custom_tokenizer(df_askable_paragraph_train, nlp)
+    with open(DEV_FILENAME, 'w') as file:
+        dev_data = json.load(file)
 
-    feature_transformer = FeatureTransformer(nlp)
+    train_feature = train_data["x"] + dev_data["x"]
+    
+    y_train = data["y"] + dev_data["y"]
 
     crf = Custom_CRF(algorithm='lbfgs',
                     max_iterations=100,
@@ -60,13 +61,6 @@ if __name__ == "__main__":
         "c2":[0.001, 0.01, 0.1, 1, 10, 100]
     }
 
-    #Sample df
-    
-    if not NO_SAMPLES is None:
-        df_train = df_askable_paragraph_train.sample(n=NO_SAMPLES, random_state=1)
-    else:
-        df_train = df_askable_paragraph_train
-    
     train_feature = feature_transformer.fit_transform(df_train["sentence_text"])
     
     y_train = list(df_train["askable_tokens"])
