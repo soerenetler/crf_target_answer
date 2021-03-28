@@ -60,10 +60,6 @@ if __name__ == "__main__":
         "c2":[0.001, 0.01, 0.1, 1, 10, 100]
     }
 
-    train_feature = feature_transformer.fit_transform(df_train["sentence_text"])
-    
-    y_train = list(df_train["askable_tokens"])
-
     custom_roc_auc_scorer = make_scorer(custom_roc_auc_score, needs_proba=True)
     custom_log_loss_scorer = make_scorer(custom_log_loss, needs_proba=True)
 
