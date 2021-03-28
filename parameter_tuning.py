@@ -34,18 +34,15 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    NO_SAMPLES=args.samples
-    print(args.samples)
-
     TRAIN_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt'
     DEV_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt'
 
     import json
-    with open(TRAIN_FILENAME, 'w') as file:
-        train_data = json.load(file.read())
+    with open(TRAIN_FILENAME, ) as file:
+        train_data = json.load(file)
 
-    with open(DEV_FILENAME, 'w') as file:
-        dev_data = json.load(file.read())
+    with open(DEV_FILENAME, ) as file:
+        dev_data = json.load(file)
 
     train_feature = train_data["x"] + dev_data["x"]
     
