@@ -2,8 +2,6 @@ from sklearn.base import TransformerMixin
 from tqdm import tqdm
 import sys
 
-from ngrams import NGrams
-
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
 import allennlp
@@ -33,17 +31,6 @@ class FeatureTransformer(TransformerMixin):
         self.bias = bias
         self.begin = begin
         self.end = end
-
-    def fit(self, X, y=None):
-        tokenized_list = []
-        for sentence in tqdm(self.nlp.pipe(X)):
-            tokenized_list.append([token.text for token in sentence])
-
-        self.unigram_model = NGrams(tokenized_list, n=2)
-        self.bigram_model = NGrams(tokenized_list, n=3)
-        self.trigram_model = NGrams(tokenized_list, n=4)
-
-        return self
 
     def get_params(self, deep=True):
         return {"nlp": self.nlp,
@@ -129,28 +116,6 @@ class FeatureTransformer(TransformerMixin):
                                 '{}:word.shape'.format(n):word.shape_,
                                 '{}:word.prob'.format(n):word.prob
                             })
-                        if True:
-                            try:
-                                unigram_context = (sent[i+n-1].text.lower(),)
-                                unigram_proba = self.unigram_model[unigram_context][sent[i+n].text.lower()]
-                            except (KeyError, IndexError):
-                                unigram_proba = 0
-                            features['{}:word.unigram_proba'.format(n)] = unigram_proba
-                            
-                            try:
-                                bigram_context = (sent[i+n-2].text.lower(), sent[i+n-1].text.lower(),)
-                                bigram_proba = self.bigram_model[bigram_context][sent[i+n].text.lower()]
-                            except (KeyError, IndexError):
-                                bigram_proba = 0
-                            features['{}:word.bigram_proba'.format(n)] = bigram_proba
-
-                            try:
-                                trigram_context = (sent[i+n-3].text.lower(), sent[i+n-2].text.lower(), sent[i+n-1].text.lower(),)
-                                trigram_proba = self.trigram_model[trigram_context][sent[i+n].text.lower()]
-                            except (KeyError, IndexError):
-                                trigram_proba = 0
-                            features['{}:word.trigram_proba'.format(n)] = trigram_proba
-
         return features
 
     def text2features(self, sent):
