@@ -67,6 +67,7 @@ if __name__ == "__main__":
     #Create CRF Pipeline
     gs = GridSearchCV(crf,
                       tuned_parameters,
+                      n_jobs=-1,
                       cv=5,
                       scoring={"roc_auc": custom_roc_auc_scorer,
                                "log_loss": custom_log_loss_scorer},
