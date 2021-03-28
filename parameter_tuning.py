@@ -34,6 +34,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    NO_SAMPLES = args.samples
+
     TRAIN_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt'
     DEV_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt'
 
