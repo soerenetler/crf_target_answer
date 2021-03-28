@@ -42,10 +42,10 @@ if __name__ == "__main__":
 
     import json
     with open(TRAIN_FILENAME, 'w') as file:
-        train_data = json.load(file)
+        train_data = json.load(file.read())
 
     with open(DEV_FILENAME, 'w') as file:
-        dev_data = json.load(file)
+        dev_data = json.load(file.read())
 
     train_feature = train_data["x"] + dev_data["x"]
     
