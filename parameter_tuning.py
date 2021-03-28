@@ -38,7 +38,7 @@ if __name__ == "__main__":
     print(args.samples)
 
     TRAIN_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt'
-    DEV_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt
+    DEV_FILENAME = args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt'
 
     import json
     with open(TRAIN_FILENAME, 'w') as file:
