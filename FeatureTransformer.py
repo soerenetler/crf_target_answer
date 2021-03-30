@@ -116,6 +116,7 @@ class FeatureTransformer(TransformerMixin):
                                 '{}:word.is_oov'.format(n):word.is_oov,
                                 '{}:word.is_stop'.format(n):word.is_stop,
                                 '{}:word.shape'.format(n):word.shape_,
+                                '{}:word.shape_reduced'.format(n):''.join(i for i, _ in itertools.groupby(word.shape_)),
                                 '{}:word.prob'.format(n):word.prob
                             })
         return features
