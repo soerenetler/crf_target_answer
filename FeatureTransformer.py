@@ -1,6 +1,7 @@
 from sklearn.base import TransformerMixin
 from tqdm import tqdm
 import sys
+import itertools
 
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.tagging
