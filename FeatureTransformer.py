@@ -57,7 +57,7 @@ class FeatureTransformer(TransformerMixin):
             elif key=="end": self.end=value
 
     def fit(self, X):
-        pass
+        return self
 
     def transform(self, X):
         return [self.text2features(x) for x in tqdm(self.nlp.pipe(X))]
