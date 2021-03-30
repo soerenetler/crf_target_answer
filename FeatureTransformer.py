@@ -100,7 +100,7 @@ class FeatureTransformer(TransformerMixin):
                         if self.srl_features:
                             features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
-                            features['{}:srl_type'.format(n)] = srl_tags[i+n][1:]
+                            features['{}:srl_type'.format(n)] = srl_tags[i+n][2:]
                             features['{}:srl_verb'.format(n)] = srl_verb
                         if True:
                             for key, value in word.morph.to_dict().items():
