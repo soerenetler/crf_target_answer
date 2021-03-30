@@ -70,7 +70,7 @@ class FeatureTransformer(TransformerMixin):
         if self.position_features:
             features['AbsolutePosition'] = i
             features['RelativePosition'] = i/len(sent)
-            features['QuatilePosition'] = int(4*(i/len(sent)))
+            features['QuartilePosition'] = int(4*(i/len(sent)))
 
         if sent[i].is_space:
             features['Whitespace'] = True
@@ -99,6 +99,8 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:word.suffix'.format(n)] = word.suffix_
                         if self.srl_features:
                             features['{}:srl'.format(n)] = srl_tags[i+n]
+                            features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
+                            features['{}:srl_type'.format(n)] = srl_tags[i+n][1:]
                             features['{}:srl_verb'.format(n)] = srl_verb
                         if True:
                             for key, value in word.morph.to_dict().items():
@@ -106,20 +108,11 @@ class FeatureTransformer(TransformerMixin):
                         if self.is_features:
                             features.update({
                                 '{}:word.is_alpha()'.format(n): word.is_alpha,
-                                '{}:word.is_ascii()'.format(n): word.is_ascii,
-                                '{}:word.is_digit()'.format(n): word.is_digit,
-                                '{}:word.is_lower()'.format(n): word.is_lower,
-                                '{}:word.is_upper()'.format(n): word.is_upper,
-                                '{}:word.is_title()'.format(n): word.is_title,
-                                '{}:word.is_punct'.format(n):word.is_punct,
-                                '{}:word.is_space'.format(n):word.is_space,
-                                '{}:word.is_bracket'.format(n):word.is_bracket,
-                                '{}:word.is_quote'.format(n):word.is_quote,
-                                '{}:word.is_currency'.format(n):word.is_currency,
+                                #'{}:word.is_ascii()'.format(n): word.is_ascii,
                                 '{}:word.like_num'.format(n):word.like_num,
                                 '{}:word.is_oov'.format(n):word.is_oov,
                                 '{}:word.is_stop'.format(n):word.is_stop,
-                                '{}:word.shape'.format(n):word.shape_,
+                                #'{}:word.shape'.format(n):word.shape_,
                                 '{}:word.shape_reduced'.format(n):''.join(i for i, _ in itertools.groupby(word.shape_)),
                                 '{}:word.prob'.format(n):word.prob
                             })
