@@ -90,9 +90,15 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:word.ent_iob_'.format(n)] = word.ent_iob_
                         if self.lemma_features:
                             features['{}:word.lemma'.format(n)] = word.lemma_
+                            features['{}:word.norm'.format(n)] = word.norm_
+                            features['{}:word.prefix'.format(n)] = word.prefix_
+                            features['{}:word.suffix'.format(n)] = word.suffix_
                         if self.srl_features:
                             features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_verb'.format(n)] = srl_verb
+                        if True:
+                            key, value for word.morph.to_dict().entries():
+                                features['{}:morph_{}'.format(n, key)] = value
                         if self.is_features:
                             features.update({
                                 '{}:word.is_alpha()'.format(n): word.is_alpha,
@@ -102,15 +108,11 @@ class FeatureTransformer(TransformerMixin):
                                 '{}:word.is_upper()'.format(n): word.is_upper,
                                 '{}:word.is_title()'.format(n): word.is_title,
                                 '{}:word.is_punct'.format(n):word.is_punct,
-                                '{}:word.is_left_punct'.format(n):word.is_left_punct,
-                                '{}:word.is_right_punct'.format(n):word.is_right_punct,
                                 '{}:word.is_space'.format(n):word.is_space,
                                 '{}:word.is_bracket'.format(n):word.is_bracket,
                                 '{}:word.is_quote'.format(n):word.is_quote,
                                 '{}:word.is_currency'.format(n):word.is_currency,
-                                '{}:word.like_url'.format(n):word.like_url,
                                 '{}:word.like_num'.format(n):word.like_num,
-                                '{}:word.like_email'.format(n):word.like_email,
                                 '{}:word.is_oov'.format(n):word.is_oov,
                                 '{}:word.is_stop'.format(n):word.is_stop,
                                 '{}:word.shape'.format(n):word.shape_,
