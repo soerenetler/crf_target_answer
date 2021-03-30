@@ -97,7 +97,7 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_verb'.format(n)] = srl_verb
                         if True:
-                            key, value for word.morph.to_dict().entries():
+                            for key, value in word.morph.to_dict().entries():
                                 features['{}:morph_{}'.format(n, key)] = value
                         if self.is_features:
                             features.update({
