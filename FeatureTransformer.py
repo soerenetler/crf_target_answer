@@ -93,13 +93,13 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:word.ent_type'.format(n)] = word.ent_type_
                             features['{}:word.ent_iob_'.format(n)] = word.ent_iob_
                         if self.lemma_features:
-                            #features['{}:word.lemma'.format(n)] = word.lemma_
-                            #features['{}:word.norm'.format(n)] = word.norm_
+                            features['{}:word.lemma'.format(n)] = word.lemma_
+                            features['{}:word.norm'.format(n)] = word.norm_
                             for fix in range(1,4):
                                 features['{}:word.prefix{}'.format(n, fix)] = word.text[:fix]
                                 features['{}:word.suffix{}'.format(n, fix)] = word.text[-fix:]
                         if self.srl_features:
-                            features['{}:srl'.format(n)] = srl_tags[i+n]
+                            #features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
                             features['{}:srl_type'.format(n)] = srl_tags[i+n][2:]
                             features['{}:srl_verb'.format(n)] = srl_verb
@@ -111,6 +111,7 @@ class FeatureTransformer(TransformerMixin):
                                 '{}:word.is_alpha()'.format(n): word.is_alpha,
                                 #'{}:word.is_ascii()'.format(n): word.is_ascii,
                                 '{}:word.like_num'.format(n):word.like_num,
+                                '{}:word.is_punct'.format(n):word.is_punct,
                                 '{}:word.is_oov'.format(n):word.is_oov,
                                 '{}:word.is_stop'.format(n):word.is_stop,
                                 #'{}:word.shape'.format(n):word.shape_,
