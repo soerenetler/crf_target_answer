@@ -98,7 +98,7 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:word'.format(n)] = word.text.lower()
                             for fix in range(1,4):
                                 features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
-                                features['{}:suffix{}'.format(n, fix)] = word.text.lower[-fix:]
+                                features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
