@@ -68,9 +68,9 @@ class FeatureTransformer(TransformerMixin):
         if self.bias:
             features['bias'] = 1.0
         if self.position_features:
-            features['AbsolutePosition'] = i
-            features['RelativePosition'] = i/len(sent)
-            features['QuartilePosition'] = int(4*(i/len(sent)))
+            features['AbsPos'] = i
+            features['RelPos'] = i/len(sent)
+            features['QuartilePos'] = int(4*(i/len(sent)))
 
         if sent[i].is_space:
             features['Whitespace'] = True
@@ -86,18 +86,19 @@ class FeatureTransformer(TransformerMixin):
                     else:
                         word = sent[i+n]
                         if self.pos_features:
-                            features['{}:word.pos_'.format(n)] = word.pos_
-                            features['{}:word.tag_'.format(n)] = word.tag_
-                            features['{}:word.dep_'.format(n)] = word.dep_
+                            features['{}:pos_'.format(n)] = word.pos_
+                            features['{}:tag_'.format(n)] = word.tag_
+                            features['{}:dep_'.format(n)] = word.dep_
                         if self.ent_type_features:
-                            features['{}:word.ent_type'.format(n)] = word.ent_type_
-                            features['{}:word.ent_iob_'.format(n)] = word.ent_iob_
+                            features['{}:ent_type'.format(n)] = word.ent_type_
+                            features['{}:ent_iob_'.format(n)] = word.ent_iob_
                         if self.lemma_features:
-                            features['{}:word.lemma'.format(n)] = word.lemma_
-                            features['{}:word.norm'.format(n)] = word.norm_
+                            #features['{}:word.lemma'.format(n)] = word.lemma_
+                            #features['{}:word.norm'.format(n)] = word.norm_
+                            features['{}:word'.format(n)] = word.text.lower()
                             for fix in range(1,4):
-                                features['{}:word.prefix{}'.format(n, fix)] = word.text[:fix]
-                                features['{}:word.suffix{}'.format(n, fix)] = word.text[-fix:]
+                                features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
+                                features['{}:suffix{}'.format(n, fix)] = word.text.lower[-fix:]
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
@@ -108,15 +109,15 @@ class FeatureTransformer(TransformerMixin):
                                 features['{}:morph_{}'.format(n, key)] = value
                         if self.is_features:
                             features.update({
-                                '{}:word.is_alpha()'.format(n): word.is_alpha,
+                                '{}:alpha'.format(n): word.is_alpha,
                                 #'{}:word.is_ascii()'.format(n): word.is_ascii,
-                                '{}:word.like_num'.format(n):word.like_num,
-                                '{}:word.is_punct'.format(n):word.is_punct,
-                                '{}:word.is_oov'.format(n):word.is_oov,
-                                '{}:word.is_stop'.format(n):word.is_stop,
+                                '{}:like_num'.format(n):word.like_num,
+                                '{}:punct'.format(n):word.is_punct,
+                                '{}:oov'.format(n):word.is_oov,
+                                '{}:stop'.format(n):word.is_stop,
                                 #'{}:word.shape'.format(n):word.shape_,
-                                '{}:word.shape_reduced'.format(n):''.join(i for i, _ in itertools.groupby(word.shape_)),
-                                '{}:word.prob'.format(n):word.prob
+                                '{}:shape_reduced'.format(n):''.join(i for i, _ in itertools.groupby(word.shape_)),
+                                #'{}:word.prob'.format(n):word.prob
                             })
         return features
 
