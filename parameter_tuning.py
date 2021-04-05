@@ -56,8 +56,8 @@ if __name__ == "__main__":
                     all_possible_transitions=True)
 
     tuned_parameters = {
-        "c1":[0.001, 0.01, 0.1, 1, 10, 100],
-        "c2":[0.001, 0.01, 0.1, 1, 10, 100]
+        "c1":[0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000],
+        "c2":[0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000]
     }
 
     custom_roc_auc_scorer = make_scorer(custom_roc_auc_score, needs_proba=True)
