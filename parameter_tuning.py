@@ -71,7 +71,7 @@ if __name__ == "__main__":
                       cv=5,
                       scoring={"roc_auc": custom_roc_auc_scorer,
                                "log_loss": custom_log_loss_scorer},
-                      refit="roc_auc",
+                      refit="log_loss",
                       verbose=10)
 
     gs.fit(train_feature, y_train)
