@@ -1,5 +1,5 @@
 graphviz
 spacy
 sklearn_crfsuite
-scikit-learn==0.19.2
+scikit-learn<0.24
 eli5
