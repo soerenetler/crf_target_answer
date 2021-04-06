@@ -49,6 +49,7 @@ if __name__ == "__main__":
     train_feature = train_data["x"] + dev_data["x"]
     
     y_train = train_data["y"] + dev_data["y"]
+    y_train = io2iob(y_train)
 
     crf = Custom_CRF(algorithm='lbfgs',
                     max_iterations=100,

@@ -18,6 +18,22 @@ def custom_log_loss(y_trues, prob_pred):
     
     return log_loss(y_true_merged, y_pred_list)
 
+def io2iob(y):
+    y_iob = []
+    for sequence in y:
+        previous_label = "O"
+        sequence_iob = []
+        for label in sequence:
+            if privious_label === "O" and label == "I-Answer"
+                sequence_iob.append("B-Answer")
+            else:
+                sequence_iob.append(label)
+
+        y_iob.appen(sequence_iob)
+
+    return y_iob
+
+
 class Custom_CRF(CRF):
     def predict_proba(self, X):
         return self.predict_marginals(X)
