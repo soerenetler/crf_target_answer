@@ -24,7 +24,7 @@ def io2iob(y):
         previous_label = "O"
         sequence_iob = []
         for label in sequence:
-            if privious_label == "O" and label == "I-Answer"
+            if privious_label == "O" and label == "I-Answer":
                 sequence_iob.append("B-Answer")
             else:
                 sequence_iob.append(label)
