@@ -30,7 +30,7 @@ def io2iob(y):
                 sequence_iob.append(label)
             previous_label=label
 
-        y_iob.appen(sequence_iob)
+        y_iob.append(sequence_iob)
 
     return y_iob
 
