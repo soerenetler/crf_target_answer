@@ -24,10 +24,11 @@ def io2iob(y):
         previous_label = "O"
         sequence_iob = []
         for label in sequence:
-            if privious_label == "O" and label == "I-Answer":
+            if previous_label == "O" and label == "I-Answer":
                 sequence_iob.append("B-Answer")
             else:
                 sequence_iob.append(label)
+            previous_label=label
 
         y_iob.appen(sequence_iob)
 
