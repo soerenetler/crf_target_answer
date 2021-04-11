@@ -105,7 +105,7 @@ class FeatureTransformer(TransformerMixin):
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_verb'] = srl_verb[0][i+n][0]
                             features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
-                            if srl_tags[i+n][0] != "O":
+                            if srl_tags[0][i+n][0] != "O":
                                 features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
 
                             for tags, verb in zip(srl_tags, srl_verb):
