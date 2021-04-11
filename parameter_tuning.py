@@ -62,7 +62,7 @@ if __name__ == "__main__":
     }
 
     custom_roc_auc_scorer = make_scorer(custom_roc_auc_score, needs_proba=True)
-    custom_log_loss_scorer = make_scorer(custom_log_loss, needs_proba=True)
+    custom_log_loss_scorer = make_scorer(custom_log_loss, needs_proba=True, greater_is_better=False)
 
 
     #Create CRF Pipeline
