@@ -71,7 +71,7 @@ class FeatureTransformer(TransformerMixin):
             features['AbsPos'] = str(i)
             #features['RelPos'] = i/len(sent)
             features['QuartilePos'] = str(int(4*(i/len(sent))))
-        features['{}:srl_verb'.format(n)] = srl_verb
+        features['srl_verb'] = srl_verb
         if sent[i].is_space:
             features['Whitespace'] = True
         else:
