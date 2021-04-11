@@ -68,10 +68,10 @@ class FeatureTransformer(TransformerMixin):
         if self.bias:
             features['bias'] = 1.0
         if self.position_features:
-            features['AbsPos'] = i
-            features['RelPos'] = i/len(sent)
-            features['QuartilePos'] = int(4*(i/len(sent)))
-
+            features['AbsPos'] = str(i)
+            #features['RelPos'] = i/len(sent)
+            features['QuartilePos'] = str(int(4*(i/len(sent))))
+        features['{}:srl_verb'.format(n)] = srl_verb
         if sent[i].is_space:
             features['Whitespace'] = True
         else:
@@ -90,20 +90,22 @@ class FeatureTransformer(TransformerMixin):
                             features['{}:tag_'.format(n)] = word.tag_
                             features['{}:dep_'.format(n)] = word.dep_
                         if self.ent_type_features:
-                            features['{}:ent_type'.format(n)] = word.ent_type_
                             features['{}:ent_iob_'.format(n)] = word.ent_iob_
+                            if word.ent_iob_ != "O":
+                                features['{}:ent_type'.format(n)] = word.ent_type_
                         if self.lemma_features:
                             #features['{}:word.lemma'.format(n)] = word.lemma_
                             #features['{}:word.norm'.format(n)] = word.norm_
                             features['{}:word'.format(n)] = word.text.lower()
                             for fix in range(1,4):
-                                features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
-                                features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
+                                if len(word) >= fix and not word.is_punct:
+                                    features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
+                                    features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
                             features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
-                            features['{}:srl_type'.format(n)] = srl_tags[i+n][2:]
-                            features['{}:srl_verb'.format(n)] = srl_verb
+                            if srl_tags[i+n][0] != "O":
+                                features['{}:srl_type'.format(n)] = srl_tags[i+n][2:]
                         if True:
                             for key, value in word.morph.to_dict().items():
                                 features['{}:morph_{}'.format(n, key)] = value
