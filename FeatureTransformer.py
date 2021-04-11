@@ -71,7 +71,7 @@ class FeatureTransformer(TransformerMixin):
             features['AbsPos'] = str(i)
             #features['RelPos'] = i/len(sent)
             features['QuartilePos'] = str(int(4*(i/len(sent))))
-        features['srl_verb'] = srl_verb
+        
         if sent[i].is_space:
             features['Whitespace'] = True
         else:
@@ -98,14 +98,20 @@ class FeatureTransformer(TransformerMixin):
                             #features['{}:word.norm'.format(n)] = word.norm_
                             features['{}:word'.format(n)] = word.text.lower()
                             for fix in range(1,4):
-                                if len(word) >= fix and not word.is_punct:
+                                if len(word) > fix and not word.is_punct:
                                     features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
                                     features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
-                            features['{}:srl_iob'.format(n)] = srl_tags[i+n][0]
+                            features['{}:srl_verb'] = srl_verb[0][i+n][0]
+                            features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
                             if srl_tags[i+n][0] != "O":
-                                features['{}:srl_type'.format(n)] = srl_tags[i+n][2:]
+                                features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
+
+                            for tags, verb in zip(srl_tags, srl_verb):
+                                if tags[i+n][0] != "O":
+                                    features['{}:srl_{}'.format(n, tags[i+n][0])] = tags[i+n][2:]
+                                    features['{}:srl_verb_{}'.format(n, tags[i+n])] = verb
                         if True:
                             for key, value in word.morph.to_dict().items():
                                 features['{}:morph_{}'.format(n, key)] = value
@@ -131,9 +137,9 @@ class FeatureTransformer(TransformerMixin):
         #print(allennlp.nn.util.get_device_of(self.predictor))
         srl_pred = self.predictor.predict_tokenized(tokens)
         if not srl_pred["verbs"]:
-            srl_tags = ["O"]*len(sent)
-            srl_verb = "NONE"
+            srl_tags = []
+            srl_verb = []
         else:
-            srl_tags = srl_pred["verbs"][0]["tags"]
-            srl_verb = srl_pred["verbs"][0]["verb"]
+            srl_tags = [element{"tags"] for element in srl_pred["verbs"]]
+            srl_verb = [element{"verb"] for element in srl_pred["verbs"]]
         return [self.word2features(sent, srl_tags, srl_verb, i) for i in range(len(sent))]
