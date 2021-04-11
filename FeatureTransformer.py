@@ -103,10 +103,11 @@ class FeatureTransformer(TransformerMixin):
                                     features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
-                            features['{}:srl_verb'] = srl_verb[0]
-                            features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
-                            if srl_tags[0][i+n][0] != "O":
-                                features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
+                            if len(srl_verb) >0:
+                                features['{}:srl_verb'] = srl_verb[0]
+                                features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
+                                if srl_tags[0][i+n][0] != "O":
+                                    features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
 
                             for tags, verb in zip(srl_tags, srl_verb):
                                 if tags[i+n][0] != "O":
