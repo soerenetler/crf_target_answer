@@ -104,7 +104,7 @@ class FeatureTransformer(TransformerMixin):
                         if self.srl_features:
                             #features['{}:srl'.format(n)] = srl_tags[i+n]
                             if len(srl_verb) >0:
-                                features['{}:srl_verb'] = srl_verb[0]
+                                features['{}:srl_verb'] = srl_verb[0].lower()
                                 features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
                                 if srl_tags[0][i+n][0] != "O":
                                     features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
@@ -112,7 +112,7 @@ class FeatureTransformer(TransformerMixin):
                             for tags, verb in zip(srl_tags, srl_verb):
                                 if tags[i+n][0] != "O":
                                     features['{}:srl_{}'.format(n, tags[i+n][2:])] = tags[i+n][0]
-                                    features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb
+                                    features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb.lower()
                         if True:
                             for key, value in word.morph.to_dict().items():
                                 features['{}:morph_{}'.format(n, key)] = value
