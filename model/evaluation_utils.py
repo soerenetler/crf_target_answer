@@ -36,16 +36,16 @@ def print_annotated_text(token_list, y_preds, y_trues=None):
     for token, y_pred, y_true in zip(token_list, y_preds, y_trues):
         if y_true == "O":
             output += "<span title=\""+ \
-                      str(y_pred["I"])+ \
+                      str(y_pred["I-Answer"]+y_pred["B-Answer"])+ \
                       "\" style=\"background-color:rgba(255, 0, 0, "+ \
-                      str(y_pred["I"])+ ");\"> " + \
+                      str(y_pred["'I-Answer"]+y_pred["B-Answer"])+ ");\"> " + \
                       token + \
                       "</span>"
         else:
             output += "<span title=\""+ \
-                      str(y_pred["I"])+ \
+                      str(y_pred["I-Answer"]+y_pred["B-Answer"])+ \
                       "\" style=\"background-color:rgba(255, 0, 0, "+ \
-                      str(y_pred["I"])+ \
+                      str(y_pred["I-Answer"]+y_pred["B-Answer"])+ \
                       ");text-decoration: underline\"> " + \
                       token + \
                       "</span>"
@@ -58,9 +58,9 @@ def print_annotated_text_latex(token_list, y_preds, y_trues=None):
     output = ""
     for token, y_pred, y_true in zip(token_list, y_preds, y_trues):
         if y_true == "O":
-            output += "\colorbox{white!"+ str(100 - int(y_pred["I"]*100)) + "!red}{" + token + "}"
+            output += "\colorbox{white!"+ str(100 - int((y_pred["I-Answer"]+y_pred["B-Answer"])*100)) + "!red}{" + token + "}"
         else:
-            output += "\colorbox{white!"+ str(100 - int(y_pred["I"]*100)) + "!red}{\\underline{" + token + "}}"
+            output += "\colorbox{white!"+ str(100 - int((y_pred["I-Answer"]+y_pred["B-Answer"])*100)) + "!red}{\\underline{" + token + "}}"
     #print(output)
     return output
 
