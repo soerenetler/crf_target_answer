@@ -111,6 +111,8 @@ class FeatureTransformer(TransformerMixin):
 
                             for tags, verb in zip(srl_tags, srl_verb):
                                 if tags[i+n][0] != "O":
+                                    if tags[i+n][2:] != "V":
+                                        features['{}:srl_{}'.format(n, tags[i+n][0])] = True
                                     features['{}:srl_{}'.format(n, tags[i+n][2:])] = tags[i+n][0]
                                     features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb.lower()
                         if True:
@@ -121,7 +123,7 @@ class FeatureTransformer(TransformerMixin):
                                 '{}:alpha'.format(n): word.is_alpha,
                                 #'{}:word.is_ascii()'.format(n): word.is_ascii,
                                 '{}:like_num'.format(n):word.like_num,
-                                '{}:punct'.format(n):word.is_punct,
+                                #'{}:punct'.format(n):word.is_punct,
                                 '{}:oov'.format(n):word.is_oov,
                                 '{}:stop'.format(n):word.is_stop,
                                 #'{}:word.shape'.format(n):word.shape_,
