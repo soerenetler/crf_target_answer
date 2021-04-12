@@ -38,7 +38,7 @@ def print_annotated_text(token_list, y_preds, y_trues=None):
             output += "<span title=\""+ \
                       str(y_pred["I-Answer"]+y_pred["B-Answer"])+ \
                       "\" style=\"background-color:rgba(255, 0, 0, "+ \
-                      str(y_pred["'I-Answer"]+y_pred["B-Answer"])+ ");\"> " + \
+                      str(y_pred["I-Answer"]+y_pred["B-Answer"])+ ");\"> " + \
                       token + \
                       "</span>"
         else:
