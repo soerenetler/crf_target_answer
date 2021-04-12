@@ -122,7 +122,7 @@ class FeatureTransformer(TransformerMixin):
                             features.update({
                                 '{}:alpha'.format(n): word.is_alpha,
                                 #'{}:word.is_ascii()'.format(n): word.is_ascii,
-                                '{}:like_num'.format(n):word.like_num,
+                                #'{}:like_num'.format(n):word.like_num,
                                 #'{}:punct'.format(n):word.is_punct,
                                 '{}:oov'.format(n):word.is_oov,
                                 '{}:stop'.format(n):word.is_stop,

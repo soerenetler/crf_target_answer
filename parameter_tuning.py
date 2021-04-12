@@ -54,7 +54,7 @@ if __name__ == "__main__":
     crf = Custom_CRF(algorithm='lbfgs',
                     max_iterations=100,
                     min_freq=5,
-                    all_possible_transitions=True)
+                    all_possible_transitions=False)
 
     tuned_parameters = {
         "c1":[0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000],
