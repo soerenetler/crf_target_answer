@@ -87,8 +87,8 @@ class FeatureTransformer(TransformerMixin):
                         word = sent[i+n]
                         # POS and Dependency Tag
                         features['{}:pos_'.format(n)] = word.pos_
-                        if word.dep_ != word.pos_.lower()
-                        features['{}:dep_'.format(n)] = word.dep_
+                        if word.dep_ != word.pos_.lower():
+                            features['{}:dep_'.format(n)] = word.dep_
                         if word.tag_ != word.text:
                             features['{}:tag_'.format(n)] = word.tag_
                         
