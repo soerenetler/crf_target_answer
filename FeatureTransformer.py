@@ -133,7 +133,7 @@ class FeatureTransformer(TransformerMixin):
                             #'{}:word.is_ascii()'.format(n): word.is_ascii,
                             #'{}:like_num'.format(n):word.like_num,
                             #'{}:punct'.format(n):word.is_punct,
-                            '{}:oov'.format(n):word.is_oov,
+                            #'{}:oov'.format(n):word.is_oov,
                             '{}:stop'.format(n):word.is_stop
                             #'{}:word.shape'.format(n):word.shape_,
                             #'{}:word.prob'.format(n):word.prob

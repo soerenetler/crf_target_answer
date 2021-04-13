@@ -72,8 +72,8 @@ def crf_roc_curve(y_trues, prob_pred):
         prob_pred {[type]} -- [description]
     '''
 
-    y_true_merged = [y_true == 'I-Answer' for y_true in list(itertools.chain(*y_trues))]
-    y_pred_list = [y_pred['I-Answer'] for y_pred in list(itertools.chain(*prob_pred))]
+    y_true_merged = [y_true == 'I-Answer' or y_true == 'B-Answer' for y_true in list(itertools.chain(*y_trues))]
+    y_pred_list = [y_pred['I-Answer'] + y_pred['B-Answer'] for y_pred in list(itertools.chain(*prob_pred))]
 
     fpr, tpr, _ = roc_curve(y_true_merged, y_pred_list)
     auc = roc_auc_score(y_true_merged, y_pred_list)
