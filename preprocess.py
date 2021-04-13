@@ -66,15 +66,19 @@ if __name__ == "__main__":
     train_feature = feature_transformer.fit_transform(df_train["sentence_tokens"])
     y_train = list(df_train["askable_tokens"])
     tokens_train = list(df_train["sentence_tokens"])
+    titles_train = list(df_train["text_title"])
+    ids_train = list(df_train["paragraph_id"])
 
     test_feature = feature_transformer.transform(df_test["sentence_tokens"])
     y_test = list(df_test["askable_tokens"])
-    tokens_test = list(df_train["sentence_tokens"])
+    tokens_test = list(df_test["sentence_tokens"])
+    titles_test = list(df_test["text_title"])
+    ids_test = list(df_test["paragraph_id"])
 
 
     import json
     with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt', 'w') as outfile:
-        json.dump({"x": train_feature, "y":y_train, "token": tokens_train} , outfile)
+        json.dump({"x": train_feature, "y":y_train, "token": tokens_train, "title": titles_train, "id": ids_train} , outfile)
 
     with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', 'w') as outfile:
-        json.dump({"x": test_feature, "y":y_test, "token": tokens_test} , outfile)
+        json.dump({"x": test_feature, "y":y_test, "token": tokens_test, "title": titles_test, "id": ids_test , outfile)
