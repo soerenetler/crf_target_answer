@@ -85,51 +85,59 @@ class FeatureTransformer(TransformerMixin):
                         features['{}_Whitespace'.format(n)] = True
                     else:
                         word = sent[i+n]
-                        if self.pos_features:
-                            features['{}:pos_'.format(n)] = word.pos_
+                        # POS and Dependency Tag
+                        features['{}:pos_'.format(n)] = word.pos_
+                        if word.dep_ != word.pos_.lower()
+                        features['{}:dep_'.format(n)] = word.dep_
+                        if word.tag_ != word.text:
                             features['{}:tag_'.format(n)] = word.tag_
-                            features['{}:dep_'.format(n)] = word.dep_
-                        if self.ent_type_features:
-                            features['{}:ent_iob_'.format(n)] = word.ent_iob_
-                            if word.ent_iob_ != "O":
-                                features['{}:ent_type'.format(n)] = word.ent_type_
-                        if self.lemma_features:
-                            #features['{}:word.lemma'.format(n)] = word.lemma_
-                            #features['{}:word.norm'.format(n)] = word.norm_
-                            features['{}:word'.format(n)] = word.text.lower()
-                            for fix in range(1,4):
-                                if len(word) > fix and not word.is_punct:
-                                    features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
-                                    features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
-                        if self.srl_features:
-                            #features['{}:srl'.format(n)] = srl_tags[i+n]
-                            if len(srl_verb) >0:
-                                features['{}:srl_verb'] = srl_verb[0].lower()
-                                features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
-                                if srl_tags[0][i+n][0] != "O":
-                                    features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
+                        
+                        # NER Features
+                        features['{}:ent_iob_'.format(n)] = word.ent_iob_
+                        if word.ent_iob_ != "O":
+                            features['{}:ent_type'.format(n)] = word.ent_type_
+                        
+                        #Text Feature
+                        features['{}:word'.format(n)] = word.text.lower()
+                        for fix in range(1,4):
+                            if len(word) > fix and not word.is_punct:
+                                features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
+                                features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
+                        
+                        #SRL Feature
+                        if len(srl_verb) >0:
+                            features['{}:srl_verb'] = srl_verb[0].lower()
+                            features['{}:srl_iob'.format(n)] = srl_tags[0][i+n][0]
+                            if srl_tags[0][i+n][0] != "O":
+                                features['{}:srl_type'.format(n)] = srl_tags[0][i+n][2:]
 
-                            for tags, verb in zip(srl_tags, srl_verb):
-                                if tags[i+n][0] != "O":
-                                    if tags[i+n][2:] != "V":
-                                        features['{}:srl_{}'.format(n, tags[i+n][0])] = True
-                                    features['{}:srl_{}'.format(n, tags[i+n][2:])] = tags[i+n][0]
-                                    features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb.lower()
-                        if True:
-                            for key, value in word.morph.to_dict().items():
-                                features['{}:morph_{}'.format(n, key)] = value
-                        if self.is_features:
-                            features.update({
-                                '{}:alpha'.format(n): word.is_alpha,
-                                #'{}:word.is_ascii()'.format(n): word.is_ascii,
-                                #'{}:like_num'.format(n):word.like_num,
-                                #'{}:punct'.format(n):word.is_punct,
-                                '{}:oov'.format(n):word.is_oov,
-                                '{}:stop'.format(n):word.is_stop,
-                                #'{}:word.shape'.format(n):word.shape_,
-                                '{}:shape_reduced'.format(n):''.join(i for i, _ in itertools.groupby(word.shape_)),
-                                #'{}:word.prob'.format(n):word.prob
-                            })
+                        for tags, verb in zip(srl_tags, srl_verb):
+                            if tags[i+n][0] != "O":
+                                if tags[i+n][2:] != "V":
+                                    features['{}:srl_{}'.format(n, tags[i+n][0])] = True
+                                features['{}:srl_{}'.format(n, tags[i+n][2:])] = tags[i+n][0]
+                                features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb.lower()
+                        
+                        #Morphological Feature
+                        for key, value in word.morph.to_dict().items():
+                            features['{}:morph_{}'.format(n, key)] = value
+                        
+                        #Reduced Shape
+                        shape_reduced = ''.join(i for i, _ in itertools.groupby(word.shape_))
+                        if shape_reduced != word.text:
+                            features['{}:shape_reduced'.format(n)] = shape_reduced
+
+                        #Additional Features
+                        features.update({
+                            '{}:alpha'.format(n): word.is_alpha,
+                            #'{}:word.is_ascii()'.format(n): word.is_ascii,
+                            #'{}:like_num'.format(n):word.like_num,
+                            #'{}:punct'.format(n):word.is_punct,
+                            '{}:oov'.format(n):word.is_oov,
+                            '{}:stop'.format(n):word.is_stop
+                            #'{}:word.shape'.format(n):word.shape_,
+                            #'{}:word.prob'.format(n):word.prob
+                        })
         return features
 
     def text2features(self, sent):
