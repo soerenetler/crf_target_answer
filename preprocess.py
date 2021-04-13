@@ -81,4 +81,4 @@ if __name__ == "__main__":
         json.dump({"x": train_feature, "y":y_train, "token": tokens_train, "title": titles_train, "id": ids_train} , outfile)
 
     with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', 'w') as outfile:
-        json.dump({"x": test_feature, "y":y_test, "token": tokens_test, "title": titles_test, "id": ids_test , outfile)
+        json.dump({"x": test_feature, "y":y_test, "token": tokens_test, "title": titles_test, "id": ids_test} , outfile)
