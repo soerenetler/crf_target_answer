@@ -57,7 +57,10 @@ if __name__ == "__main__":
     #Sample df
     if not NO_SAMPLES is None:
         df_train = df_askable_paragraph_train.sample(n=NO_SAMPLES, random_state=1)
-        df_test = df_askable_paragraph_test.sample(n=int(NO_SAMPLES*0.2), random_state=1)
+        if NO_SAMPLES*0.2 > len(df_askable_paragraph_test):
+            df_test = df_askable_paragraph_test
+        else:
+            df_test = df_askable_paragraph_test.sample(n=int(NO_SAMPLES*0.2), random_state=1)
     else:
         df_train = df_askable_paragraph_train
         df_test = df_askable_paragraph_test
