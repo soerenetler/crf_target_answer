@@ -152,7 +152,7 @@ class FeatureTransformer(TransformerMixin):
             srl_tags = []
             srl_verb = []
         else:
-            self.predictor.predict_instances(instances)
+            srl_pred = self.predictor.predict_instances(instances)
             srl_tags = [element["tags"] for element in srl_pred["verbs"]]
             srl_verb = [element["verb"] for element in srl_pred["verbs"]]
         return [self.word2features(sent, srl_tags, srl_verb, i) for i in range(len(sent))]
