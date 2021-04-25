@@ -73,7 +73,7 @@ class FeatureTransformer(TransformerMixin):
             features['QuartilePos'] = str(int(4*(i/len(sent))))
         
         if sent[i].is_space:
-            features['Whitespace'] = True
+            features['WHITE'] = True
         else:
             for n in range(self.begin, self.end+1):
                 if i + n < 0:
@@ -82,18 +82,18 @@ class FeatureTransformer(TransformerMixin):
                     features['{} EOS'.format(n)] = True
                 else:
                     if sent[i+n].is_space:
-                        features['{}_Whitespace'.format(n)] = True
+                        features['{}_WHITE'.format(n)] = True
                     else:
                         word = sent[i+n]
                         # POS and Dependency Tag
-                        features['{}:pos_'.format(n)] = word.pos_
+                        features['{}:pos'.format(n)] = word.pos_
                         if word.dep_ != word.pos_.lower():
-                            features['{}:dep_'.format(n)] = word.dep_
+                            features['{}:dep'.format(n)] = word.dep_
                         if word.tag_ != word.text:
-                            features['{}:tag_'.format(n)] = word.tag_
+                            features['{}:tag'.format(n)] = word.tag_
                         
                         # NER Features
-                        features['{}:ent_iob_'.format(n)] = word.ent_iob_
+                        features['{}:ent_iob'.format(n)] = word.ent_iob_
                         if word.ent_iob_ != "O":
                             features['{}:ent_type'.format(n)] = word.ent_type_
                         
@@ -101,8 +101,8 @@ class FeatureTransformer(TransformerMixin):
                         features['{}:word'.format(n)] = word.text.lower()
                         for fix in range(1,4):
                             if len(word) > fix and not word.is_punct:
-                                features['{}:prefix{}'.format(n, fix)] = word.text.lower()[:fix]
-                                features['{}:suffix{}'.format(n, fix)] = word.text.lower()[-fix:]
+                                features['{}:pre{}'.format(n, fix)] = word.text.lower()[:fix]
+                                features['{}:suf{}'.format(n, fix)] = word.text.lower()[-fix:]
                         
                         #SRL Feature
                         if len(srl_verb) >0:
@@ -116,7 +116,7 @@ class FeatureTransformer(TransformerMixin):
                                 if tags[i+n][2:] != "V":
                                     features['{}:srl_{}'.format(n, tags[i+n][0])] = True
                                 features['{}:srl_{}'.format(n, tags[i+n][2:])] = tags[i+n][0]
-                                features['{}:srl_verb_{}'.format(n, tags[i+n][2:])] = verb.lower()
+                                features['{}:srl_v_{}'.format(n, tags[i+n][2:])] = verb.lower()
                         
                         #Morphological Feature
                         for key, value in word.morph.to_dict().items():
@@ -125,7 +125,7 @@ class FeatureTransformer(TransformerMixin):
                         #Reduced Shape
                         shape_reduced = ''.join(i for i, _ in itertools.groupby(word.shape_))
                         if shape_reduced != word.text:
-                            features['{}:shape_reduced'.format(n)] = shape_reduced
+                            features['{}:shape'.format(n)] = shape_reduced
 
                         #Additional Features
                         features.update({

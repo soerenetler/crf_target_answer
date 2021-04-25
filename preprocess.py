@@ -36,13 +36,6 @@ if __name__ == "__main__":
     TEST_FILENAME = args.data +args.dataset+ "/sentences/test.csv"
     print(args.data)
 
-    df_askable_paragraph_train = pd.read_csv(TRAIN_FILENAME)
-    df_askable_paragraph_train["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["askable_tokens"]]
-    df_askable_paragraph_train["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_train["sentence_tokens"]]
-
-    df_askable_paragraph_test = pd.read_csv(TEST_FILENAME)
-    df_askable_paragraph_test["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["askable_tokens"]]
-    df_askable_paragraph_test["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph_test["sentence_tokens"]]
 
     activated = spacy.require_gpu()
     nlp = spacy.load('en_core_web_trf')
@@ -54,34 +47,32 @@ if __name__ == "__main__":
 
     feature_transformer = FeatureTransformer(nlp)
 
-    #Sample df
-    if not NO_SAMPLES is None:
-        df_train = df_askable_paragraph_train.sample(n=NO_SAMPLES, random_state=1)
-        if NO_SAMPLES*0.2 > len(df_askable_paragraph_test):
-            df_test = df_askable_paragraph_test
+    create_feature_json(TRAIN_FILENAME, args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_train_crf.txt', NO_SAMPLES, test=False)
+    create_feature_json(TEST_FILENAME, args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', NO_SAMPLES, test=True)
+
+
+    def create_feature_json(input_file, output_file, no_samples, test=False)
+        df_askable_paragraph = pd.read_csv(input_file)
+        df_askable_paragraph["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph["askable_tokens"]]
+        df_askable_paragraph["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph["sentence_tokens"]]
+
+        if not NO_SAMPLES is None:
+            if not test:
+                df = df_askable_paragraph.sample(n=NO_SAMPLES, random_state=1)
+            else:
+                if no_samples*0.2 > len(df_askable_paragraph):
+                    df = df_askable_paragraph
+                else:
+                    df = df_askable_paragraph.sample(n=int(NO_SAMPLES*0.2), random_state=1)
         else:
-            df_test = df_askable_paragraph_test.sample(n=int(NO_SAMPLES*0.2), random_state=1)
-    else:
-        df_train = df_askable_paragraph_train
-        df_test = df_askable_paragraph_test
+            df = df_askable_paragraph
 
 
-    train_feature = feature_transformer.fit_transform(df_train["sentence_tokens"])
-    y_train = list(df_train["askable_tokens"])
-    tokens_train = list(df_train["sentence_tokens"])
-    titles_train = list(df_train["text_title"])
-    ids_train = list(df_train["paragraph_id"])
+        feature = feature_transformer.transform(df["sentence_tokens"])
+        y = list(df["askable_tokens"])
+        tokens = list(df["sentence_tokens"])
+        titles = list(df["text_title"])
+        ids = list(df["paragraph_id"])
 
-    test_feature = feature_transformer.transform(df_test["sentence_tokens"])
-    y_test = list(df_test["askable_tokens"])
-    tokens_test = list(df_test["sentence_tokens"])
-    titles_test = list(df_test["text_title"])
-    ids_test = list(df_test["paragraph_id"])
-
-
-    import json
-    with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+'_train_crf.txt', 'w') as outfile:
-        json.dump({"x": train_feature, "y":y_train, "token": tokens_train, "title": titles_train, "id": ids_train} , outfile)
-
-    with open(args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', 'w') as outfile:
-        json.dump({"x": test_feature, "y":y_test, "token": tokens_test, "title": titles_test, "id": ids_test} , outfile)
+        with open(output_file, 'w') as outfile:
+            json.dump({"x": feature, "y":y, "token": tokens, "title": titles, "id": ids} , outfile)
