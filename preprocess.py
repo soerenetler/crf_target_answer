@@ -16,6 +16,7 @@ from FeatureTransformer import FeatureTransformer
 
 from sklearn.pipeline import Pipeline
 import argparse
+import json
 
 def create_feature_json(input_file, output_file, no_samples, test=False):
         df_askable_paragraph = pd.read_csv(input_file)
