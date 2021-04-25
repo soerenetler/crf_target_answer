@@ -51,7 +51,7 @@ if __name__ == "__main__":
     create_feature_json(TEST_FILENAME, args.data +args.dataset+'/crf/'+str(NO_SAMPLES)+ '_test_crf.txt', NO_SAMPLES, test=True)
 
 
-    def create_feature_json(input_file, output_file, no_samples, test=False)
+    def create_feature_json(input_file, output_file, no_samples, test=False):
         df_askable_paragraph = pd.read_csv(input_file)
         df_askable_paragraph["askable_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph["askable_tokens"]]
         df_askable_paragraph["sentence_tokens"] = [ast.literal_eval(t) for t in df_askable_paragraph["sentence_tokens"]]
