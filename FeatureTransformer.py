@@ -141,16 +141,18 @@ class FeatureTransformer(TransformerMixin):
         return features
 
     def text2features(self, sent):
-        tokens = [token.text for token in sent]
+        tokens = [token for token in sent]
         #allennlp.nn.util.move_to_device(token, 0)
 
         #print(allennlp.nn.util.get_device_of(token))
         #print(allennlp.nn.util.get_device_of(self.predictor))
-        srl_pred = self.predictor.predict_tokenized(tokens)
-        if not srl_pred["verbs"]:
+
+        instances = self.predictor.tokens_to_instances(tokens)
+        if not instances:
             srl_tags = []
             srl_verb = []
         else:
+            self.predictor.predict_instances(instances)
             srl_tags = [element["tags"] for element in srl_pred["verbs"]]
             srl_verb = [element["verb"] for element in srl_pred["verbs"]]
         return [self.word2features(sent, srl_tags, srl_verb, i) for i in range(len(sent))]
