@@ -23,12 +23,8 @@ All files regarding the identificytion of question-worthy tokens can be found in
 
 The crf_utils.py and the evaluation_utils.py provide helperfunctions that make the training and evaluation process easier and the code in the notebooks cleaner.
 
-The trainCRF.py runs the training process (this can take a while to run) and saves the trained model with the tuned hyperparameters in teh trainedModels folder.
+The setup_crf.py runs the training process (this can take a while to run) and saves the trained model with the tuned hyperparameters in the trainedModels folder.
 
 The evaluation folder contains the files for the different baselines the model is compared to.
 
-The evaluation of the crf models can be found in the root folder of the repository: evaluate_crf.ipynb. This file runs very fast and illustrates the models.
-
-## Evaluation of QA models
-
-The evaluate_qa_utils.ipynb runs the evaluation of one QA model. The downoaded predictions of those models are saved in the data/model_predictions folder. The helper functions are listet in the evaluate_qa_utils.py
+The evaluation of the crf models can be found in the root folder of the repository: evaluate_best_estimator.ipynb. This file runs very fast and illustrates the models.
